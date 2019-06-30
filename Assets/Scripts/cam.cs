@@ -1,18 +1,18 @@
 using UnityEngine;
 using System.Collections;
 
-public class cam : MonoBehaviour {
+public class Cam : MonoBehaviour {
   public float dampTime = 0.15f;
   public Transform target;
 
   private Vector3 velocity = Vector3.zero;
   private Camera cm;
 
-  void Start() {
+  public void Start() {
     cm = this.GetComponent<Camera>();
   }
 
-  void FixedUpdate() {
+  public void FixedUpdate() {
     if (!target) return;
     Vector3 point = cm.WorldToViewportPoint(target.position);
     Vector3 delta = target.position - cm.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, point.z));

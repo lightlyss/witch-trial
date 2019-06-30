@@ -2,7 +2,7 @@ fileFormatVersion: 2
 guid: f6bd2661070759440ba5b80432504e60
 TextureImporter:
   fileIDToRecycleName:
-    21300000: floor_0
+    21300000: Background_0
     21300002: floor_1
     21300004: floor_2
     21300006: floor_3
@@ -88,7 +88,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: floor_0
+      name: Background_0
       rect:
         serializedVersion: 2
         x: 0
@@ -96,7 +96,7 @@ TextureImporter:
         width: 5900
         height: 550
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
