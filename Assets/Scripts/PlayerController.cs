@@ -13,18 +13,20 @@ public class PlayerController : MonoBehaviour {
   private Rigidbody2D rb;
   private SpriteRenderer sr;
   private AudioSource asrc;
+  private BoxCollider2D bc2d;
 
   public void Start() {
     ani = this.GetComponent<Animator>();
     rb = this.GetComponent<Rigidbody2D>();
     sr = this.GetComponent<SpriteRenderer>();
     asrc = this.GetComponent<AudioSource>();
+    bc2d = this.GetComponent<BoxCollider2D>();
     ani.SetBool("airborne", airborne);
     ani.SetFloat("yvel", rb.velocity.y);
   }
 
   public void OnCollisionEnter2D(Collision2D c2d) {
-    if (c2d.gameObject.GetComponent(typeof(PlatformEffector2D)) != null) {
+    if (c2d.GetContact(0).point.y <= transform.position.y - bc2d.size.y/2f) {
       airborne = false;
       ani.SetBool("airborne", airborne);
       ani.SetFloat("yvel", rb.velocity.y);
@@ -32,7 +34,7 @@ public class PlayerController : MonoBehaviour {
   }
 
   public void OnCollisionExit2D(Collision2D c2d) {
-    if (c2d.gameObject.GetComponent(typeof(PlatformEffector2D)) != null) {
+    if (c2d.collider.bounds.max.y <= transform.position.y - bc2d.size.y/2f) {
       airborne = true;
       ani.SetBool("airborne", airborne);
       ani.SetFloat("yvel", rb.velocity.y);
