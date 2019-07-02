@@ -1,8 +1,9 @@
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-  public float moveSpeed = 4f;
+  public float moveForce = 15f;
   public float jumpForce = 27.6f;
+  public float maxSpeed = 7f;
   public float voiceVolume = 1f;
   public AudioClip deathVoice;
   public AudioClip[] jumpVoices;
@@ -42,11 +43,15 @@ public class PlayerController : MonoBehaviour {
   }
 
   public void Update() {
+    // Artificial terminal velocity
+    if (Mathf.Abs(rb.velocity.x) > maxSpeed) {
+      rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+    }
+
     if (dead) return;
 
-    var xdir = Input.GetAxisRaw("Horizontal");
-    var ydir = Input.GetAxisRaw("Vertical");
-    var v = rb.velocity;
+    float xdir = Input.GetAxisRaw("Horizontal");
+    float ydir = Input.GetAxisRaw("Vertical");
 
     // Suicide
     if (Input.GetButton("Cancel")) {
@@ -59,11 +64,11 @@ public class PlayerController : MonoBehaviour {
     // X axis motion
     if (xdir > 0) {
       sr.flipX = false;
-      rb.velocity = new Vector2(moveSpeed, v.y);
+      rb.AddForce(new Vector2(moveForce, 0));
     } else if (xdir < 0) {
       sr.flipX = true;
-      rb.velocity = new Vector2(-moveSpeed, v.y);
-    } else rb.velocity = new Vector2(0, v.y);
+      rb.AddForce(new Vector2(-moveForce, 0));
+    }
     ani.SetInteger("xdir", (int) xdir);
 
     // Jumping
@@ -74,6 +79,6 @@ public class PlayerController : MonoBehaviour {
       int r = (int)(Random.value * jumpVoices.Length * 2);
       if (r < jumpVoices.Length) asrc.PlayOneShot(jumpVoices[r], voiceVolume);
     }
-    ani.SetFloat("yvel", v.y);
+    ani.SetFloat("yvel", rb.velocity.y);
   }
 }
