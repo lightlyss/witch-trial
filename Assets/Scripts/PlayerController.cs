@@ -68,6 +68,8 @@ public class PlayerController : MonoBehaviour {
     } else if (xdir < 0) {
       sr.flipX = true;
       rb.AddForce(new Vector2(-moveForce, 0));
+    } else {
+      rb.AddForce(new Vector2(-rb.velocity.x, 0));
     }
     ani.SetInteger("xdir", (int) xdir);
 
